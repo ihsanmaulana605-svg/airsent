@@ -70,7 +70,7 @@ def _seri(df: pd.DataFrame, kolom: str, warna: str, satuan: str, ma: int) -> lis
 
 
 def grafik_asap(df: pd.DataFrame, ma: int = 1, ambang: bool = True, tinggi: int = 340) -> go.Figure:
-    judul, yj = "Kadar Asap (simulasi MQ-135)", "Asap (%)"
+    judul, yj = "Kadar Asap (simulasi MQ-2)", "Asap (%)"
     if df.empty:
         return _kosong(judul, yj, [0, 100], tinggi)
     fig = go.Figure(_seri(df, "asap", CYAN, "%", ma))
