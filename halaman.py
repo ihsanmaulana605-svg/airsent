@@ -299,8 +299,8 @@ def bantuan() -> None:
     judul_halaman("Bantuan", "Cara membaca dashboard dan mengatasi masalah umum")
     with st.expander("Bagaimana sistem ini bekerja?", expanded=True):
         st.markdown(
-            "1. **ESP32** membaca potensiometer (simulasi sensor asap MQ-135) dan DHT22 (suhu & kelembapan).\n"
-            "2. ESP32 mengirim data JSON ke **broker MQTT publik HiveMQ** tiap ±2 detik, dan langsung saat status berubah.\n"
+            "1. **ESP32** membaca potensiometer (simulasi sensor asap MQ-2) dan DHT22 (suhu & kelembapan).\n"
+            "2. ESP32 mengirim data JSON ke **broker MQTT publik HiveMQ** tiap ±8 detik, dan langsung saat status berubah.\n"
             "3. **Dashboard** ini berlangganan (subscribe) ke topic yang sama dan menampilkan datanya secara real-time.\n\n"
             "Alat tetap bekerja mandiri (LCD, LED, relay, buzzer) walaupun internet mati.")
     with st.expander("Arti status udara"):
