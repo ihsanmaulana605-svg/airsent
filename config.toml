@@ -1,0 +1,13 @@
+# Tema TIDAK dikunci (tetap mengikuti sistem). Hanya warna aksen yang diatur per mode.
+# Pilihan Terang/Sistem/Gelap tersedia lewat tombol di bar atas aplikasi.
+[client]
+toolbarMode = "minimal"
+
+[theme.light]
+primaryColor = "#0891b2"
+
+[theme.dark]
+primaryColor = "#22d3ee"
+
+[browser]
+gatherUsageStats = false
