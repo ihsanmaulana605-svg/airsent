@@ -1,5 +1,3 @@
-"""Grafik Plotly. Warna teks/latar mengikuti tema Streamlit (terang/gelap) lewat
-theme="streamlit"; di sini hanya warna data yang ditentukan. Nilai kosong = celah."""
 from __future__ import annotations
 
 import pandas as pd
@@ -15,7 +13,6 @@ GRID = "rgba(128,128,128,0.22)"
 
 
 def _estilo(fig: go.Figure) -> go.Figure:
-    """Latar transparan dan warna teks sesuai tema dasar Streamlit (tema pilihan aplikasi dibalik lewat CSS)."""
     try:
         terang = st.context.theme.type == "light"
     except Exception:  # noqa: BLE001
@@ -42,7 +39,7 @@ def _layout(fig: go.Figure, judul: str, y_judul: str, y_range=None, tinggi: int 
         yaxis=dict(title=y_judul, gridcolor=GRID, range=y_range),
         hovermode="x unified",
         showlegend=False,
-        uirevision="tetap",  # zoom/pan pengguna tidak ter-reset saat data bertambah
+        uirevision="tetap",
     )
     return _estilo(fig)
 
