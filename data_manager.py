@@ -267,4 +267,4 @@ def ke_csv(df: pd.DataFrame) -> bytes:
     out["waktu"] = out["waktu"].dt.strftime("%Y-%m-%d %H:%M:%S")
     out["relay"] = out["relay"].map({True: "AKTIF", False: "NONAKTIF"}).fillna("TIDAK DIKETAHUI")
     out.columns = kolom
-    return out.to_csv(index=False).encode("utf-8-sig")  # BOM agar terbaca di Excel
+    return out.to_csv(index=False).encode("utf-8-sig") 
