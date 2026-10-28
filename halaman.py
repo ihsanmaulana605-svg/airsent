@@ -1,4 +1,3 @@
-"""Halaman-halaman dashboard (dipakai oleh st.navigation di app.py)."""
 from __future__ import annotations
 
 import pandas as pd
@@ -33,7 +32,6 @@ def _tabel_riwayat(f: pd.DataFrame) -> pd.DataFrame:
     })
 
 
-# =============================================================== 1. RINGKASAN
 def ringkasan() -> None:
     store = get_store()
     judul_halaman("Ringkasan", "Kondisi udara terkini dari ESP32 — Real-Time Air Quality Monitoring System")
@@ -74,7 +72,6 @@ def ringkasan() -> None:
     live(_isi)
 
 
-# =============================================================== 2. ANALISIS
 def analisis() -> None:
     store = get_store()
     judul_halaman("Analisis", "Grafik interaktif, statistik, dan distribusi status")
@@ -128,7 +125,6 @@ def analisis() -> None:
     live(_isi)
 
 
-# =============================================================== 3. RIWAYAT
 def riwayat() -> None:
     store = get_store()
     judul_halaman("Riwayat & Log", "Tabel pengukuran, perubahan status, dan log teknis")
@@ -190,7 +186,6 @@ def riwayat() -> None:
     live(_isi)
 
 
-# =============================================================== 4. SISTEM
 def _diagnosis(s: dict) -> tuple[list[tuple[str, str]], str]:
     ok = lambda b: ":green[**OK**]" if b else ":red[**GAGAL**]"  # noqa: E731
     total = s["total_data"] + s["invalid_count"]
@@ -254,8 +249,6 @@ def sistem() -> None:
 
     live(_isi)
 
-
-# =============================================================== 5. PENGATURAN
 def pengaturan() -> None:
     store = get_store()
     judul_halaman("Pengaturan", "Preferensi tampilan (berlaku untuk sesi browser ini)")
@@ -294,7 +287,6 @@ def pengaturan() -> None:
             st.toast("Riwayat dihapus.", icon=":material/delete:")
 
 
-# =============================================================== 6. BANTUAN
 def bantuan() -> None:
     judul_halaman("Bantuan", "Cara membaca dashboard dan mengatasi masalah umum")
     with st.expander("Bagaimana sistem ini bekerja?", expanded=True):
