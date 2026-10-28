@@ -1,4 +1,3 @@
-"""Komponen UI bersama: tema (terang/gelap/sistem), navbar, kartu grid, state, fragment live."""
 from __future__ import annotations
 
 import html
@@ -22,10 +21,8 @@ PREF_BAWAAN = {
     "a_rentang": "15 menit",
 }
 
-# ------------------------------------------------------------------ CSS
 CSS = """
 <style>
-/* --- kerangka --- */
 header[data-testid="stHeader"] {background: transparent !important; pointer-events: none;}
 header[data-testid="stHeader"] [data-testid="stToolbar"], header[data-testid="stHeader"] [data-testid="stStatusWidget"] {pointer-events: auto;}
 [data-testid="stAppDeployButton"] {display: none !important;}
@@ -34,7 +31,6 @@ header[data-testid="stHeader"] [data-testid="stToolbar"], header[data-testid="st
 @keyframes pulse {0% {box-shadow: 0 0 0 0 var(--pc, rgba(220,38,38,.55));} 70% {box-shadow: 0 0 0 12px rgba(0,0,0,0);}
                   100% {box-shadow: 0 0 0 0 rgba(0,0,0,0);}}
 
-/* --- navbar --- */
 .st-key-navbar {position: sticky; top: .5rem; z-index: 100; margin: 0 0 1.1rem 0; padding: 12px 18px 10px 18px;
   border-radius: 20px; border: 1px solid rgba(128,128,128,.30);
   background: linear-gradient(135deg, rgba(8,145,178,.16), rgba(37,99,235,.10) 55%, rgba(128,128,128,.10));
@@ -62,13 +58,11 @@ header[data-testid="stHeader"] [data-testid="stToolbar"], header[data-testid="st
   box-shadow: 0 4px 14px rgba(37,99,235,.40); border-color: transparent !important;}
 .st-key-pref_tema button[aria-checked="true"], .st-key-pref_tema button[aria-checked="true"] * {color: #ffffff !important;}
 
-/* --- judul halaman --- */
 .judul {font-size: 2.1rem !important; font-weight: 800; letter-spacing: .02em; margin: .2rem 0 0 0; line-height: 1.25;
   background: linear-gradient(90deg, #06b6d4, #3b82f6 60%, #8b5cf6); -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;}
 .sub {opacity: .7; margin: .15rem 0 .9rem 0;}
 
-/* --- kartu & grid --- */
 .grid {display: grid; gap: 14px; align-items: stretch;}
 .grid4 {grid-template-columns: repeat(4, minmax(0, 1fr));}
 .grid3 {grid-template-columns: repeat(3, minmax(0, 1fr));}
@@ -96,7 +90,6 @@ header[data-testid="stHeader"] [data-testid="stToolbar"], header[data-testid="st
 """
 
 
-# ------------------------------------------------------------------ tema
 def _tema_dasar() -> str | None:
     """Tema yang sedang dipakai Streamlit (light/dark), atau None bila belum diketahui."""
     try:
@@ -127,7 +120,6 @@ def css_tema() -> str:
             f"div[role='tooltip'], [data-testid='stSelectboxVirtualDropdown'], [data-testid='stToast'] {{filter: {filt};}}</style>")
 
 
-# ------------------------------------------------------------------ state & backend
 @st.cache_resource(show_spinner=False)
 def get_store() -> DataStore:
     store, _ = get_service()  # satu koneksi MQTT untuk seluruh sesi/rerun
@@ -153,7 +145,6 @@ def live(func) -> None:
     st.fragment(run_every=interval if aktif else None)(func)()
 
 
-# ------------------------------------------------------------------ helper tampilan
 def esc(x) -> str:
     return html.escape(str(x))
 
@@ -212,7 +203,6 @@ def status_esp(s: dict) -> tuple[str, str, str]:
     return "ONLINE", "ok", cat
 
 
-# ------------------------------------------------------------------ navbar
 def _chip(teks: str, tone: str, pulse: bool = False) -> str:
     w = WARNA_TONE[tone]
     return (f'<span class="chip"><i class="dot{" pulse" if pulse else ""}" style="background:{w};--pc:{w}88"></i>'
@@ -256,7 +246,6 @@ def render_navbar(halaman: list, store: DataStore, aktif: int = 0) -> None:
                 st.page_link(p)
 
 
-# ------------------------------------------------------------------ blok yang dipakai ulang
 def render_waktu(s: dict) -> None:
     mqtt_b = badge("MQTT TERHUBUNG", "ok") if s["mqtt_connected"] else badge("MQTT TERPUTUS", "bad")
     kes = {"DATA TERKINI": "ok", "DATA TERLAMBAT": "warn", "TIDAK ADA DATA": "idle"}[s["kesegaran"]]
