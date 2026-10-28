@@ -1,4 +1,3 @@
-"""SMART AIR SENTINEL - Dashboard Streamlit. Jalankan: streamlit run app.py"""
 from __future__ import annotations
 
 import streamlit as st
@@ -27,12 +26,10 @@ aktif = next((i for i, p in enumerate(halaman) if p is nav), 0)
 render_navbar(halaman, store, aktif)
 
 
-# ------------------------------------------------------------ notifikasi (toast)
 def _notifier() -> None:
-    """Toast saat status berubah / ESP32 online-offline. Tidak mengulang saat rerun."""
     s = store.snapshot()
     ss = st.session_state
-    if "seen_seq" not in ss:           # sesi baru: jangan munculkan kejadian lama
+    if "seen_seq" not in ss:         
         ss["seen_seq"] = s["seq"]
         return
     batas = ss["seen_seq"]
