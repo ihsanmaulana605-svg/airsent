@@ -1,5 +1,3 @@
-# Tema TIDAK dikunci (tetap mengikuti sistem). Hanya warna aksen yang diatur per mode.
-# Pilihan Terang/Sistem/Gelap tersedia lewat tombol di bar atas aplikasi.
 [client]
 toolbarMode = "minimal"
 
