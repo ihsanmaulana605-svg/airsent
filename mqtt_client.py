@@ -1,8 +1,3 @@
-"""Koneksi MQTT (paho-mqtt 2.x, callback API VERSION2).
-
-Satu koneksi untuk seluruh aplikasi. Callback hanya menulis ke DataStore
-(thread-safe) dan tidak menyentuh Streamlit.
-"""
 from __future__ import annotations
 
 import atexit
@@ -38,7 +33,7 @@ class MqttService:
 
     def start(self) -> None:
         with self._lock:
-            if self._started:          # jangan pernah loop_start() dua kali
+            if self._started:         
                 return
             self._started = True
         try:
@@ -56,12 +51,11 @@ class MqttService:
         except Exception:  # noqa: BLE001
             pass
 
-    # ---- callback (thread jaringan paho)
     def _on_connect(self, client, userdata, flags, reason_code, properties):
         if reason_code.is_failure:
             self.store.set_mqtt_state(False, f"Ditolak broker: {reason_code}")
             return
-        # Subscribe di sini agar otomatis diulang setelah reconnect
+
         client.subscribe([(config.TOPIC_DATA, 1), (config.TOPIC_STATUS, 1)])
         self.store.set_mqtt_state(True)
 
@@ -83,7 +77,6 @@ _singleton_lock = threading.Lock()
 
 
 def get_service() -> tuple[DataStore, MqttService]:
-    """Mengembalikan (store, service) tunggal; membuat dan menjalankannya sekali saja."""
     global _singleton
     with _singleton_lock:
         if _singleton is None:
