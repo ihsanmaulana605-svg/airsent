@@ -1,9 +1,4 @@
-"""Validasi payload, penyimpanan riwayat (memori), dan timestamp WIB.
 
-Data disimpan di memori proses Python (BUKAN permanen): hilang saat aplikasi
-dihentikan. Kelas DataStore bisa diganti implementasi SQLite tanpa mengubah UI,
-selama method publiknya (set_mqtt_state, handle_message, snapshot) tetap sama.
-"""
 from __future__ import annotations
 
 import json
@@ -23,7 +18,6 @@ BULAN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
 KOLOM = ["waktu", "asap", "suhu", "lembab", "status", "status_hitung", "relay"]
 
 
-# ---------------------------------------------------------------- waktu
 def now_wib() -> datetime:
     return datetime.now(config.WIB)
 
@@ -62,7 +56,6 @@ def teks_durasi(detik: float) -> str:
     return f"{sc} d"
 
 
-# ---------------------------------------------------------------- validasi
 def hitung_status(asap: float) -> str:
     if asap < config.BATAS_WASPADA:
         return "AMAN"
@@ -108,7 +101,7 @@ def parse_payload(raw: bytes) -> tuple[Optional[dict], Optional[str]]:
         lembab = None
     relay = data.get("relay")
     relay = relay if isinstance(relay, bool) else None
-    adc = _angka(data.get("adc"))                      # opsional: nilai ADC mentah (kalibrasi)
+    adc = _angka(data.get("adc"))                    
     adc = int(adc) if adc is not None and 0 <= adc <= 4095 else None
 
     return {
@@ -122,7 +115,6 @@ def parse_payload(raw: bytes) -> tuple[Optional[dict], Optional[str]]:
     }, None
 
 
-# ---------------------------------------------------------------- penyimpanan
 class DataStore:
     def __init__(self) -> None:
         self._lock = threading.RLock()
@@ -131,7 +123,7 @@ class DataStore:
         self._event_log: deque = deque(maxlen=config.MAX_LOG)
         self.mqtt_connected = False
         self.mqtt_error: Optional[str] = None
-        self.device_status: Optional[str] = None      # "online" / "offline"
+        self.device_status: Optional[str] = None     
         self.device_status_time: Optional[datetime] = None
         self.last_data_time: Optional[datetime] = None
         self.last_record: Optional[dict] = None
@@ -144,7 +136,7 @@ class DataStore:
         self.started = now_wib()
         self.client_id: Optional[str] = None
 
-    # ---- dipanggil dari thread MQTT
+    
     def log_event(self, pesan: str) -> None:
         with self._lock:
             self._event_log.append((now_wib(), pesan))
@@ -243,14 +235,14 @@ class DataStore:
             self._event_log.append((now_wib(), "Riwayat dihapus oleh pengguna"))
 
 
-# ---------------------------------------------------------------- DataFrame
+
 def to_dataframe(history: list[dict]) -> pd.DataFrame:
     if not history:
         return pd.DataFrame(columns=KOLOM)
     df = pd.DataFrame(history, columns=KOLOM)
     df["waktu"] = pd.to_datetime(df["waktu"])
     for k in ("asap", "suhu", "lembab"):
-        df[k] = pd.to_numeric(df[k], errors="coerce")  # None -> NaN (celah di grafik, bukan 0)
+        df[k] = pd.to_numeric(df[k], errors="coerce")  
     return df
 
 
