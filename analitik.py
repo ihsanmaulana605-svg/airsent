@@ -1,4 +1,3 @@
-"""Perhitungan statistik ringan dari riwayat (pandas)."""
 from __future__ import annotations
 
 from typing import Optional
