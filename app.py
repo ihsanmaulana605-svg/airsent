@@ -12,7 +12,6 @@ st.markdown(CSS, unsafe_allow_html=True)
 st.markdown(css_tema(), unsafe_allow_html=True)
 store = get_store()
 
-# Navigasi bawaan disembunyikan; bar navigasi kustom dibuat di render_navbar()
 halaman = [
     st.Page(ringkasan, title="Ringkasan", icon=":material/dashboard:", url_path="ringkasan", default=True),
     st.Page(analisis, title="Analisis", icon=":material/monitoring:", url_path="analisis"),
